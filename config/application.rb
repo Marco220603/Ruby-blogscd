@@ -6,7 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Blogcd
+module Blog
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
@@ -15,5 +15,10 @@ module Blogcd
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    # Load database configuration with aliases enabled
+    config.before_configuration do
+      config.database_configuration = YAML.safe_load(ERB.new(File.read(Rails.root.join('config', 'database.yml'))).result, aliases: true)
+    end
   end
 end
